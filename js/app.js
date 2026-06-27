@@ -355,9 +355,12 @@ function showFeedback(isCorrect, q, selectedIndices) {
       correctStr = q.answer.map(i => labels[i] + '. ' + q.options[i]).join('；');
     }
     $('#fb-detail').innerHTML = '正确答案：<strong>' + correctStr + '</strong>';
+    if (q.exp) {
+      $('#fb-detail').innerHTML += '<div class="exp-box">💡 ' + q.exp + '</div>';
+    }
   }
 
-  // Highlight correct/wrong options on the original buttons
+  // Highlight correct/wrong options
   const optsDiv = $('#options-container');
   const allBtns = optsDiv.querySelectorAll('.option-btn');
   allBtns.forEach(btn => {
@@ -398,6 +401,9 @@ function skipQuestion() {
     correctStr = q.answer.map(i => labels[i] + '. ' + q.options[i]).join('；');
   }
   $('#fb-detail').innerHTML = '正确答案：<strong>' + correctStr + '</strong>';
+  if (q.exp) {
+    $('#fb-detail').innerHTML += '<div class="exp-box">💡 ' + q.exp + '</div>';
+  }
 
   // Highlight correct on buttons
   const optsDiv = $('#options-container');
@@ -473,6 +479,7 @@ function showResult() {
         <div class="wrong-q">${i+1}. <span class="type-tag tag-${q.type}">${TYPE_LABELS[q.type]}</span> ${q.question}</div>
         <div class="wrong-a">你的答案：${yourStr}</div>
         <div class="wrong-c">正确答案：<strong>${correctStr}</strong></div>
+        ${q.exp ? '<div class="wrong-exp">💡 ' + q.exp + '</div>' : ''}
       </div>`;
     }).join('');
   } else {

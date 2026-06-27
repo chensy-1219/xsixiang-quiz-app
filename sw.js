@@ -1,4 +1,4 @@
-const CACHE = 'xsixiang-quiz-v3';
+const CACHE = 'xsixiang-quiz-v4';
 
 self.addEventListener('install', (e) => {
   self.skipWaiting();

@@ -418,6 +418,29 @@ html, body {
 .fb-skipped .fb-title { color: #d97706; }
 .fb-detail { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px; }
 .fb-detail strong { color: var(--success); }
+.exp-box {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: #fff;
+  border-left: 3px solid var(--primary);
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.6;
+  text-align: left;
+}
+
+/* ====== Wrong List explanations ====== */
+.wrong-exp {
+  margin-top: 6px;
+  padding: 8px 10px;
+  background: #fff8f0;
+  border-left: 3px solid var(--warning);
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
 
 /* ====== RESULT SCREEN ====== */
 .result-score { text-align: center; padding: 16px 0; }
