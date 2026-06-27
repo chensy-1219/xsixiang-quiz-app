@@ -592,8 +592,22 @@ function initQuiz() {
 
 // ====== BOOT ======
 document.addEventListener('DOMContentLoaded', () => {
-  initHome();
-  initQuiz();
+  try {
+    // Verify questions loaded
+    if (typeof QUESTIONS === 'undefined' || QUESTIONS.length === 0) {
+      document.body.innerHTML = '<div style="padding:40px;text-align:center;font-family:sans-serif"><h2>题库加载失败</h2><p>请刷新页面后重试</p></div>';
+      return;
+    }
+    initHome();
+    initQuiz();
+    console.log('新思想概论刷题App已就绪，题库共' + QUESTIONS.length + '题');
+  } catch (e) {
+    console.error('App init error:', e);
+    const footer = document.querySelector('.footer-info');
+    if (footer) {
+      footer.innerHTML = '<p style="color:red">初始化失败，请刷新页面后重试</p>';
+    }
+  }
 });
 
 // ====== PWA ======
