@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>新思想概论 · 刷题练习</title>
+  <link rel="stylesheet" href="css/style.css?v=1">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#dc2626">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
+</head>
+<body>
+
+<div id="app">
+  <!-- ====== HOME SCREEN ====== -->
+  <div id="home-screen" class="screen active">
+    <div class="header">
+      <h1>📖 新思想概论 · 刷题练习</h1>
+      <p class="subtitle">习近平新时代中国特色社会主义思想概论 · 100题</p>
+    </div>
+
+    <div class="card">
+      <h3>📝 题型选择</h3>
+      <div class="type-grid">
+        <button class="type-btn active" data-type="all">
+          <span class="type-icon">📋</span> 全部题型
+        </button>
+        <button class="type-btn" data-type="single">
+          <span class="type-icon">①</span> 单选题
+        </button>
+        <button class="type-btn" data-type="multi">
+          <span class="type-icon">☐</span> 多选题
+        </button>
+        <button class="type-btn" data-type="tf">
+          <span class="type-icon">✓✗</span> 判断题
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📂 章节范围 <span class="badge" id="chapter-count"></span></h3>
+      <div class="chapter-grid" id="chapter-grid"></div>
+      <div class="select-row">
+        <button class="text-btn" id="select-all-ch">全选</button>
+        <button class="text-btn" id="deselect-all-ch">取消全选</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🔢 题目数量</h3>
+      <div class="count-slider">
+        <input type="range" id="question-count" min="5" max="50" value="20" step="5">
+        <span class="count-display" id="count-display">20 题</span>
+      </div>
+    </div>
+
+    <div class="card" id="wrong-review-card">
+      <h3>📝 错题本</h3>
+      <div class="wrong-summary">
+        <span><span class="wrong-count-num" id="wrong-count">0</span> 个高频错题</span>
+        <span class="wrong-total" id="wrong-total"></span>
+      </div>
+      <div class="wrong-top" id="wrong-top"></div>
+      <div class="wrong-actions">
+        <button class="btn-primary" id="review-wrong-btn">🔄 错题复习</button>
+        <button class="text-btn" id="clear-wrong-btn">清空记录</button>
+      </div>
+    </div>
+
+    <button class="btn-primary btn-large" id="start-btn">🚀 开始练习</button>
+
+    <div class="footer-info">
+      <p>共 <strong id="total-questions">0</strong> 道题目可用</p>
+      <p style="font-size:12px;margin-top:2px" id="type-breakdown"></p>
+    </div>
+  </div>
+
+  <!-- ====== QUIZ SCREEN ====== -->
+  <div id="quiz-screen" class="screen">
+    <div class="quiz-header">
+      <button class="icon-btn" id="quit-btn" title="退出">✕</button>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <span class="progress-text" id="progress-text">1/20</span>
+    </div>
+
+    <div class="quiz-body">
+      <div class="mode-badge" id="mode-badge"></div>
+
+      <div class="question-card">
+        <div class="q-header">
+          <span class="type-tag" id="type-tag"></span>
+          <span class="q-chapter" id="q-chapter"></span>
+        </div>
+        <div class="question-text" id="question-text"></div>
+        <div class="multi-hint" id="multi-hint" style="display:none">⚠️ 多选题：点击多个选项进行选择</div>
+      </div>
+
+      <div class="options-container" id="options-container"></div>
+
+      <div class="submit-area" id="submit-area">
+        <button class="btn-primary" id="submit-btn">✅ 提交答案</button>
+        <button class="btn-secondary" id="skip-btn">跳过 ›</button>
+      </div>
+
+      <div class="feedback-area" id="feedback-area" style="display:none">
+        <div class="fb-icon" id="fb-icon"></div>
+        <div class="fb-title" id="fb-title"></div>
+        <div class="fb-detail" id="fb-detail"></div>
+        <button class="btn-primary" id="next-btn">下一题 ›</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== RESULT SCREEN ====== -->
+  <div id="result-screen" class="screen">
+    <div class="header">
+      <h1>📊 练习结果</h1>
+    </div>
+
+    <div class="result-score">
+      <div class="score-circle" id="score-circle">
+        <span class="score-number" id="score-number">0</span>
+        <span class="score-unit">分</span>
+      </div>
+    </div>
+
+    <div class="result-stats">
+      <div class="stat-item">
+        <span class="stat-value" id="stat-correct">0</span>
+        <span class="stat-label">✅ 正确</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="stat-wrong">0</span>
+        <span class="stat-label">❌ 错误</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="stat-skipped">0</span>
+        <span class="stat-label">⏭️ 跳过</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="stat-accuracy">0%</span>
+        <span class="stat-label">🎯 正确率</span>
+      </div>
+    </div>
+
+    <div class="card" id="wrong-list-card" style="display:none">
+      <h3>📝 错题回顾</h3>
+      <div id="wrong-list"></div>
+    </div>
+
+    <div class="result-actions">
+      <button class="btn-primary" id="retry-all-btn">🔄 再练一次</button>
+      <button class="btn-secondary" id="retry-wrong-btn" style="display:none">🎯 只练错题</button>
+      <button class="btn-outline" id="home-btn">🏠 返回首页</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/questions.js?v=1"></script>
+<script src="js/app.js?v=1"></script>
+</body>
+</html>
